@@ -1,4 +1,13 @@
-def test_substring(full_string, substring):
-    assert substring in full_string, f"expected '{substring}' to be substring of '{full_string}'"
+import unittest
 
-test_substring('fulltext', 'some_value')
+
+class TestAbs(unittest.TestCase):
+    def test_abs1(self):
+        self.assertEqual(abs(-42), 42, "Should be absolute value of a number")
+
+    def test_abs2(self):
+        self.assertEqual(abs(-42), -42, "Should be absolute value of a number")
+
+
+if __name__ == "__main__":
+    unittest.main()
