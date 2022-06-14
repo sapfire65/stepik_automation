@@ -7,9 +7,9 @@ from selenium import webdriver
 def autch():
     print(f'\n-== ПРОВЕРКА: ==- ')
     oll = webdriver.Chrome()
-    oll.implicitly_wait(7) # Не явное ожидание прогрузки каждого элемента на странице
+    oll.implicitly_wait(30) # Не явное ожидание прогрузки каждого элемента на странице
     yield oll
     print('<< Браузер закрыт')
-    time.sleep(5)
+    time.sleep(5000)
     oll.quit()
 
