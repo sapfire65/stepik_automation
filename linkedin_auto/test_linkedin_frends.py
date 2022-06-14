@@ -20,6 +20,7 @@ class TestLoginPass():
         alert = autch.switch_to.alert
         alert.accept()
 
+
         autch.find_element(By.XPATH, '//input[@autocomplete="username"]').click()
 
 
