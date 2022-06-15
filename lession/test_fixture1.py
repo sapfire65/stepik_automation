@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 
 link = "https://stepik.org/"
 
-@pytest.fixture()
+@pytest.fixture(scope="class")
 def target_stepik():
     print('\nЭто сообщение повторяется каждый раз, после запуска фикстуры')
     target_stepik = webdriver.Chrome()

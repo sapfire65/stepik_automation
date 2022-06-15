@@ -9,8 +9,8 @@ from selenium.webdriver.support import expected_conditions as EC
 
 link = 'https://www.linkedin.com/'
 
-class TestLoginPass():
-    def test_cklick_button_accept_quke(self, autch):
+try:
+    def test_cklick_button_accept_quke(autch):
         # Открываю ссылку в браузере | нахожу кнопку | кликаю по кнопке согласия
         autch.get(link)
         autch.find_element(By.CSS_SELECTOR, '[action-type="ACCEPT"]').click()
@@ -31,6 +31,20 @@ class TestLoginPass():
         autch.find_element(By.XPATH, '(//li/a[@class="app-aware-link global-nav__primary-link"])[1]').click()
         autch.find_element(By.XPATH, '(//div[@class="mn-community-summary__sub-section artdeco-dropdown__item"])[1]').click()
 
+        friends_list = autch.find_element(By.CSS_SELECTOR, 'h1[class="t-18 t-black t-normal"]').text
+        # Очищаем текст
+        friends_list = friends_list.replace('контактов', '')
+        friends_list = int(friends_list.replace(' ', ''))
+        print(friends_list)
+
+        # Получаем ссылку на профиль
+        autch.find_element(By.XPATH, '//a[@class="ember-view mn-connection-card__picture"]')
+        friends_link = WebDriverWait(autch, 10).until(EC.visibility_of_element_located((By.XPATH, '(//a[@class="ember-view mn-connection-card__picture"])[1]'))).get_attribute('href')
+        print(friends_link)
+
+
+finally:
+    pass
 
 
 
