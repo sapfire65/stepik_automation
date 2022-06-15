@@ -1,7 +1,5 @@
 import pytest
 import time
-import random
-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -49,7 +47,17 @@ try:
 
 
         # Скролим страницу пока не будет видно все контакты.
-        amount_elements = len(autch.find_elements_by_xpath('(//a[@class="ember-view mn-connection-card__picture"])'))  # Получаю количество элементов c линками на профили.
+        amount_elements = 0  # Получаю количество элементов c линками на профили.
+
+        # Условие цикла: скролить вниз, пока на странице не будет всего списка контактов.
+        while (friends_list - 9) != amount_elements:
+            autch.execute_script('window.scrollBy(0, 500);')
+            amount_elements = len(autch.find_elements_by_xpath('(//a[@class="ember-view mn-connection-card__picture"])'))
+            button_load_more = WebDriverWait(autch, 60).until(EC.element_to_be_clickable((By.XPATH, '//div[@class="display-flex p5"]')))
+            button_load_more.click()
+
+
+
         print(f'Найденно элементов: {amount_elements}')
         print('*' * 30, end='\n\n')
 
