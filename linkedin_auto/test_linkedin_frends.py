@@ -31,16 +31,33 @@ try:
         autch.find_element(By.XPATH, '(//li/a[@class="app-aware-link global-nav__primary-link"])[1]').click()
         autch.find_element(By.XPATH, '(//div[@class="mn-community-summary__sub-section artdeco-dropdown__item"])[1]').click()
 
+        # Получаю стоку с общим количеством контактов
         friends_list = autch.find_element(By.CSS_SELECTOR, 'h1[class="t-18 t-black t-normal"]').text
         # Очищаем текст
-        friends_list = friends_list.replace('контактов', '')
-        friends_list = int(friends_list.replace(' ', ''))
-        print(friends_list)
+        number = []
+        for i in friends_list:
+            if i.isdigit():
+                number.append((int(i)))
+        b = " ".join(map(str, number))
+        for i in b:
+            friends_list = b.replace(' ', '')
+        friends_list = int(friends_list) # Перевел в int
+
+        print()
+        print('*'*30)
+        print(f'Всего контактов: {friends_list}')
+
+
+        # Скролим страницу пока не будет видно все контакты.
+        amount_elements = len(autch.find_elements_by_xpath('(//a[@class="ember-view mn-connection-card__picture"])'))  # Получаю количество элементов c линками на профили.
+        print(f'Найденно элементов: {amount_elements}')
+        print('*' * 30, end='\n\n')
+
 
         # Получаем ссылку на профиль
         autch.find_element(By.XPATH, '//a[@class="ember-view mn-connection-card__picture"]')
         friends_link = WebDriverWait(autch, 10).until(EC.visibility_of_element_located((By.XPATH, '(//a[@class="ember-view mn-connection-card__picture"])[1]'))).get_attribute('href')
-        print(friends_link)
+        # print(friends_link)
 
 
 finally:
