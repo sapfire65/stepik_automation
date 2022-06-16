@@ -52,6 +52,7 @@ try:
         # Проверяем наличие файла db_frends.txt
         if os.path.exists(p):
             print("Файл db_frends.txt найден")
+
         else:
             print("Файл db_frends.txt не найден, и будет создан")
             db_frends = open("db_frends.txt", "w+")
@@ -62,8 +63,8 @@ try:
             # Условие цикла: скролить вниз, пока на странице не будет всего списка контактов.
             while (friends_list - 9) != amount_elements:
                 autch.execute_script('window.scrollBy(0, 500);')
-                amount_elements = len(
-                    autch.find_elements_by_xpath('(//a[@class="ember-view mn-connection-card__picture"])'))
+                amount_elements = len(autch.find_elements_by_xpath('(//a[@class="ember-view mn-connection-card__picture"])'))
+
                 button_load_more = WebDriverWait(autch, 60).until(
                     EC.element_to_be_clickable((By.XPATH, '//div[@class="display-flex p5"]')))
                 button_load_more.click()
@@ -78,12 +79,14 @@ try:
                 db_frends.write(f'\n{friends_link}')
             db_frends.close()
 
+            print(f'Найденно элементов: {amount_elements}')
+            print('*' * 30, end='\n\n')
 
 
 
 
-        print(f'Найденно элементов: {amount_elements}')
-        print('*' * 30, end='\n\n')
+
+
 
 
 
