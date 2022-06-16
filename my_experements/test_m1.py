@@ -11,7 +11,8 @@ try:
     browser.implicitly_wait(10)
     browser.get(link)
 
-    p = os.path.abspath('db_frends.txt ') # Узнаем путь к корневой папке с файлом
+    # Узнаем путь к корневой папке с файлом
+    p = os.path.abspath('db_frends.txt ')
     print(p)
     # Проверяем наличие файла
     if os.path.exists(p):

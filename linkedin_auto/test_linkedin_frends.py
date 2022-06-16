@@ -1,5 +1,6 @@
 import pytest
 import time
+import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -45,16 +46,39 @@ try:
         print('*'*30)
         print(f'Всего контактов: {friends_list}')
 
+        # Узнаем путь к корневой папке с файлом
+        p = os.path.abspath('db_frends.txt ')
+        print(p)
+        # Проверяем наличие файла db_frends.txt
+        if os.path.exists(p):
+            print("Файл db_frends.txt найден")
+        else:
+            print("Файл db_frends.txt не найден, и будет создан")
+            db_frends = open("db_frends.txt", "w+")
 
-        # Скролим страницу пока не будет видно все контакты.
-        amount_elements = 0  # Получаю количество элементов c линками на профили.
+            # Скролим страницу пока не будет видно все контакты.
+            amount_elements = 0  # Получаю количество элементов c линками на профили.
 
-        # Условие цикла: скролить вниз, пока на странице не будет всего списка контактов.
-        while (friends_list - 9) != amount_elements:
-            autch.execute_script('window.scrollBy(0, 500);')
-            amount_elements = len(autch.find_elements_by_xpath('(//a[@class="ember-view mn-connection-card__picture"])'))
-            button_load_more = WebDriverWait(autch, 60).until(EC.element_to_be_clickable((By.XPATH, '//div[@class="display-flex p5"]')))
-            button_load_more.click()
+            # Условие цикла: скролить вниз, пока на странице не будет всего списка контактов.
+            while (friends_list - 9) != amount_elements:
+                autch.execute_script('window.scrollBy(0, 500);')
+                amount_elements = len(
+                    autch.find_elements_by_xpath('(//a[@class="ember-view mn-connection-card__picture"])'))
+                button_load_more = WebDriverWait(autch, 60).until(
+                    EC.element_to_be_clickable((By.XPATH, '//div[@class="display-flex p5"]')))
+                button_load_more.click()
+
+
+            # Получаем ссылку на профиль и добавляем в файл db_frends.txt
+            for i in range(1, amount_elements + 1):
+                # autch.find_element(By.XPATH, '//a[@class="ember-view mn-connection-card__picture"]')
+                friends_link = WebDriverWait(autch, 10).until(EC.visibility_of_element_located(
+                    (By.XPATH, f'(//a[@class="ember-view mn-connection-card__picture"])[{i}]'))).get_attribute('href')
+                db_frends = open("db_frends.txt", "a+")
+                db_frends.write(f'\n{friends_link}')
+            db_frends.close()
+
+
 
 
 
@@ -62,10 +86,8 @@ try:
         print('*' * 30, end='\n\n')
 
 
-        # Получаем ссылку на профиль
-        autch.find_element(By.XPATH, '//a[@class="ember-view mn-connection-card__picture"]')
-        friends_link = WebDriverWait(autch, 10).until(EC.visibility_of_element_located((By.XPATH, '(//a[@class="ember-view mn-connection-card__picture"])[1]'))).get_attribute('href')
-        # print(friends_link)
+
+
 
 
 finally:

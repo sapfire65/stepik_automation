@@ -14,7 +14,7 @@ def autch():
 
     yield oll
     print('<< Браузер закрыт')
-    time.sleep(5000)
+    time.sleep(5)
     oll.quit()
 
 
