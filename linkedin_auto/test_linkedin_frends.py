@@ -76,6 +76,7 @@ try:
                     (By.XPATH, f'(//a[@class="ember-view mn-connection-card__picture"])[{i}]'))).get_attribute('href')
                 db_frends = open("db_frends.txt", "a+")
                 db_frends.write(f'\n{friends_link}')
+
             db_frends.close()
 
 
