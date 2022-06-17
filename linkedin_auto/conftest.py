@@ -11,13 +11,14 @@ def autch():
     print(f'\n-== СТАРТ: ==- ')
     oll = webdriver.Chrome()
     oll.implicitly_wait(30) # Не явное ожидание прогрузки каждого элемента на странице
-
     yield oll
     print('<< Браузер закрыт')
     time.sleep(5)
     oll.quit()
 
 
+def messeg():
+    print('проверка')
 
 
 
