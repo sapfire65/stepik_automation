@@ -17,8 +17,3 @@ def autch():
     oll.quit()
 
 
-def messeg():
-    print('проверка')
-
-
-

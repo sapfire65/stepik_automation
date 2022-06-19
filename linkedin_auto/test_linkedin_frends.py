@@ -1,6 +1,7 @@
 import pytest
 import time
 import os
+import re
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -56,15 +57,23 @@ try:
         # Проверяем наличие файла db_frends.txt
         if os.path.exists(p):
             print("Файл db_frends.txt найден")
+            with open("db_frends.txt") as file:
+                text = file.readline()
+                file.close()
+                if len(text) != 0:
+                    print('Файл не пустой')
+                else:
+                    os.remove("db_frends.txt")
+                    print('Пустой файл был удален')
+
+
 
         else:
             print("Файл db_frends.txt не найден, и будет создан")
             db_frends = open("db_frends.txt", "w+")
 
             # Скролим страницу пока не будет видно все контакты.
-            # Получаю количество элементов c линками на профили.
             # Условие цикла: скролить вниз, пока на странице не перестанет обнаруживатся кнопака в футере.
-
             # Пока список не кончится.
             amount_elements = 0
 
