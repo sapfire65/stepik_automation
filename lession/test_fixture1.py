@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 
 final = ''
 count = 0
+g = 111111111
 
 @pytest.fixture(scope='function')
 def browser():
@@ -14,13 +15,14 @@ def browser():
 
     print(f'\nТест №{count}')
     browser = webdriver.Chrome()
+    browser.minimize_window()
     browser.implicitly_wait(10) # неявное ожидание
     yield browser
     time.sleep(2)
     browser.quit()
 
 @pytest.mark.parametrize('number_list', ['236895', '236896', '236897', '236898', '236899', '236903', '236904', '236905' ])
-def test_open_linc(browser, number_list):
+def test_open_link(browser, number_list):
     global final # Указываю глобальную переменную
     answer = math.log(int(time.time()))
     link = f'https://stepik.org/lesson/{number_list}/step/1'
@@ -28,16 +30,17 @@ def test_open_linc(browser, number_list):
     browser.find_element(By.XPATH, '//textarea[@autocapitalize="none"]').send_keys(answer)
     browser.find_element(By.XPATH, '//button[@class="submit-submission"]').click()
     text = browser.find_element(By.XPATH, '//p[@class="smart-hints__hint"]').text
-    assert 'Correct!' == text, f'Ожидаемое значение <Correct!>, фактическое значение <<{text}>>'
+    # assert 'Correct!' == text, f'Ожидаемое значение <Correct!>, фактическое значение <<{text}>>'
+
     try:
-        pass
+        assert 'Correct!' == text, f'Ожидаемое значение <Correct!>, фактическое значение <<{text}>>'
     except AssertionError:
         final += text  # собираю ответ каждой ошибки
 
-def text_bad_tests_text():
-    global final
-    print()
-    print(f'Предложение: \n\n{final}')
+def test_final_text():
+    print(f'\n\nПредложение: {final}')
+
+
 
 
 
