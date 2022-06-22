@@ -4,21 +4,24 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+final = ''
+count = 0
 
 @pytest.fixture(scope='function')
 def browser():
+    global count
+    count += 1
 
-    print('\nНачало теста')
+    print(f'\nТест №{count}')
     browser = webdriver.Chrome()
     browser.implicitly_wait(10) # неявное ожидание
-
     yield browser
-    full_text = ''
     time.sleep(2)
     browser.quit()
 
 @pytest.mark.parametrize('number_list', ['236895', '236896', '236897', '236898', '236899', '236903', '236904', '236905' ])
 def test_open_linc(browser, number_list):
+    global final # Указываю глобальную переменную
     answer = math.log(int(time.time()))
     link = f'https://stepik.org/lesson/{number_list}/step/1'
     browser.get(link)
@@ -26,6 +29,21 @@ def test_open_linc(browser, number_list):
     browser.find_element(By.XPATH, '//button[@class="submit-submission"]').click()
     text = browser.find_element(By.XPATH, '//p[@class="smart-hints__hint"]').text
     assert 'Correct!' == text, f'Ожидаемое значение <Correct!>, фактическое значение <<{text}>>'
+    try:
+        pass
+    except AssertionError:
+        final += text  # собираю ответ каждой ошибки
+
+def text_bad_tests_text():
+    global final
+    print()
+    print(f'Предложение: \n\n{final}')
+
+
+
+
+
+
 
 
 
