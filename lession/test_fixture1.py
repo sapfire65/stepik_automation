@@ -3,19 +3,23 @@ import math
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 
 final = ''
 count = 0
-g = 111111111
 
 @pytest.fixture(scope='function')
 def browser():
     global count
     count += 1
-
     print(f'\nТест №{count}')
-    browser = webdriver.Chrome()
-    browser.minimize_window()
+    # Отключаю отображение браузера
+    options = Options()
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
+
+    browser = webdriver.Chrome(options=options)
+    # browser.minimize_window()
     browser.implicitly_wait(10) # неявное ожидание
     yield browser
     time.sleep(2)
@@ -43,31 +47,4 @@ def test_final_text():
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# @pytest.fixture(scope="function")
-# def browser():
-#     print("\nstart browser for test..")
-#     browser = webdriver.Chrome()
-#     yield browser
-#     print("\nquit browser..")
-#     browser.quit()
-#
-# @pytest.mark.parametrize('language', ["ru", "en-gb"])
-# def test_guest_should_see_login_link(browser, language):
-#     link = f"http://selenium1py.pythonanywhere.com/{language}/"
-#     browser.get(link)
-#     browser.find_element(By.CSS_SELECTOR, "#login_link")
 
